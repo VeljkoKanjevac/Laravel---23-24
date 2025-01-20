@@ -5,5 +5,13 @@
 @endsection
 
 @section("sadrzajStranice")
-    <p>Current time: {{date("H:i:s")}}</p>
+
+    @if($hour <= 12)
+        <p>Dobro jutro.</p>
+    @else
+        <p>Dobar dan.</p>
+    @endif
+
+    <p>Trenutno sati: {{$hour}}</p>
+    <p>Trenutno vreme je: {{$currentTime}}</p>
 @endsection
