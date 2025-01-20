@@ -1,1 +1,9 @@
-OVO JE SHOP STRANICA
+@extends("layout")
+
+@section("naslovStranice")
+    Shop
+@endsection
+
+@section("sadrzajStranice")
+    <p>Shop page</p>
+@endsection
