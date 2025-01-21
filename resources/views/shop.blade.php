@@ -6,12 +6,10 @@
 
 @section("sadrzajStranice")
 
-    @foreach($products as $singleProduct)
-        @if($singleProduct == "iPhone 14" || $singleProduct == "iPhone 13 pro")
-            <p>{{$singleProduct}} - SUPER SNIZENJE</p>
-        @else
-            <p>{{$singleProduct}}</p>
-        @endif
+    @foreach($allProducts as $singleProduct)
+
+        <p>{{$singleProduct->name}} -> {{$singleProduct->price}} din</p>
+
     @endforeach
 
 @endsection

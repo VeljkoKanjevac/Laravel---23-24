@@ -14,4 +14,9 @@
 
     <p>Trenutno sati: {{$hour}}</p>
     <p>Trenutno vreme je: {{$currentTime}}</p>
+
+
+    @foreach($products as $product)
+        <p>{{$product->name}}</p>
+    @endforeach
 @endsection
