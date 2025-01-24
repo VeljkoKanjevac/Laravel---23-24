@@ -26,7 +26,6 @@ Route::view("/about", "about");
 Route::post("/send-contact", [\App\Http\Controllers\ContactController::class, "sendContact"]);
 
 Route::view("/admin/add-product", "addProduct");
-
 Route::post("/admin/new-product", [\App\Http\Controllers\ProductController::class, "addNewProduct"]);
-
 Route::get("/admin/all-products", [\App\Http\Controllers\ProductController::class, "getAllProducts"]);
+ROute::get("/admin/delete-product/{product}", [\App\Http\Controllers\ProductController::class, "deleteProduct"]);
