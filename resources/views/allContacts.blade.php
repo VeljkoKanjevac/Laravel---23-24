@@ -28,7 +28,7 @@
                     <td>{{$contact->message}}</td>
                     <td>
                         <a href="{{ route('deleteContact', ['contact' => $contact->id]) }}" class="btn btn-danger">Obrisi</a>
-                        <a href="{{ route('getContact', ['id' => $contact->id]) }}" class="btn btn-primary">Edituj</a>
+                        <a href="{{ route('getContact', ['contact' => $contact->id]) }}" class="btn btn-primary">Edituj</a>
                     </td>
                 </tr>
             @endforeach

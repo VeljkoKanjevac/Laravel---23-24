@@ -6,7 +6,7 @@
 
 @section("sadrzajStranice")
 
-    <form method="POST"  action="{{ route("updateContact",["id" => $contact->id])  }}">
+    <form method="POST"  action="{{ route("updateContact",["contact" => $contact->id])  }}">
 
         @if($errors->any())
             <p>Greska: {{$errors->first()}}</p>

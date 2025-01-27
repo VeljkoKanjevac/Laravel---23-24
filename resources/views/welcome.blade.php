@@ -1,7 +1,7 @@
 @extends("layout")
 
 @section("naslovStranice")
-    Home
+    Dashboard
 @endsection
 
 @section("sadrzajStranice")

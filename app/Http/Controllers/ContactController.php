@@ -50,14 +50,12 @@ class ContactController extends Controller
         return redirect()->route('allContacts');
     }
 
-    public function getContactById($id)
+    public function getContactById(ContactModel $contact)
     {
-        $contact = ContactModel::where(["id"=>$id])->first();
-
         return view('updateContact', compact('contact'));
     }
 
-    public function updateContact(Request $request, $id)
+    public function updateContact(Request $request,ContactModel $contact)
     {
         $request -> validate([
             "email" => "required|string",
@@ -65,10 +63,10 @@ class ContactController extends Controller
             "description" => "required|string|min:5",
         ]);
 
-        ContactModel::where(["id"=>$id])->update([
-            "email"=>$request->get('email'),
-            "subject"=>$request->get('subject'),
-            "message"=>$request->get('description')
+        $contact->update([
+            "email" => $request->get('email'),
+            "subject" => $request->get('subject'),
+            "message" => $request->get('description')
         ]);
 
         return redirect()->route('allContacts');

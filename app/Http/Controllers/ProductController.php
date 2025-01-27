@@ -49,14 +49,12 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function getProductById($id)
+    public function getProductById(ProductsModel $product)
     {
-        $product = ProductsModel::where(['id' => $id])->first();
-
         return view('updateProduct', compact('product'));
     }
 
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(Request $request,ProductsModel $product)
     {
         $request->validate([
             'name' => 'required|string|min:3|unique:products',
@@ -66,7 +64,7 @@ class ProductController extends Controller
             'image' => 'required|string'
         ]);
 
-        ProductsModel::where(['id' => $id])->update([
+        $product->update([
             'name' => $request->get('name'),
             'description' => $request->get('description'),
             'price' => $request->get('price'),
