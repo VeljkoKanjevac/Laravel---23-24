@@ -26,11 +26,9 @@
                     <td>{{$contact->email}}</td>
                     <td>{{$contact->subject}}</td>
                     <td>{{$contact->message}}</td>
-                    <td>{{$contact->created_at}}</td>
-                    <td>{{$contact->updated_at}}</td>
                     <td>
-                        <a href="/admin/delete-product/{{$contact->id}}" class="btn btn-danger">Obrisi</a>
-                        <a class="btn btn-primary">Edituj</a>
+                        <a href="{{ route('deleteContact', ['contact' => $contact->id]) }}" class="btn btn-danger">Obrisi</a>
+                        <a href="{{ route('getContact', ['id' => $contact->id]) }}" class="btn btn-primary">Edituj</a>
                     </td>
                 </tr>
             @endforeach

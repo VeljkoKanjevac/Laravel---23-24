@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function addNewProduct(Request $request)
+    public function saveProduct(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|min:3',
+            'name' => 'required|string|min:3|unique:products',
             'description' => 'required|string|min:3',
             'price' => 'required|numeric|min:0',
             'amount' => 'required|integer|min:0',
@@ -25,7 +25,7 @@ class ProductController extends Controller
             'image' => $request->get('image')
         ]);
 
-        return redirect('/admin/add-product');
+        return redirect()->route('allProducts');
     }
 
     public function getAllProducts()
@@ -47,5 +47,33 @@ class ProductController extends Controller
         $singleProduct->delete();
 
         return redirect()->back();
+    }
+
+    public function getProductById($id)
+    {
+        $product = ProductsModel::where(['id' => $id])->first();
+
+        return view('updateProduct', compact('product'));
+    }
+
+    public function updateProduct(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|min:3|unique:products',
+            'description' => 'required|string|min:3',
+            'price' => 'required|numeric|min:0',
+            'amount' => 'required|integer|min:0',
+            'image' => 'required|string'
+        ]);
+
+        ProductsModel::where(['id' => $id])->update([
+            'name' => $request->get('name'),
+            'description' => $request->get('description'),
+            'price' => $request->get('price'),
+            'amount' => $request->get('amount'),
+            'image' => $request->get('image')
+        ]);
+
+        return redirect()->route('allProducts');
     }
 }
