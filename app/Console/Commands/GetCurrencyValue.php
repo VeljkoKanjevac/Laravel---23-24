@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ExchangeRates;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -33,7 +34,10 @@ class GetCurrencyValue extends Command
         foreach ($currencies as $currency)
         {
             $response = Http::get("https://kurs.resenje.org/api/v1/currencies/$currency/rates/today");
-            var_dump($response->json()["exchange_middle"]);
+            ExchangeRates::create([
+                'currency' => $currency,
+                'value' => $response->json()['exchange_middle'],
+            ]);
         }
     }
 }
