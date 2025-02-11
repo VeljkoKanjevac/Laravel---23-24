@@ -30,8 +30,8 @@
                     <td>{{$singleProduct->price}}</td>
                     <td>{{$singleProduct->image}}</td>
                     <td>
-                        <a href="{{ route('deleteProduct', ['product' => $singleProduct->id]) }}" class="btn btn-danger">Obrisi</a>
-                        <a href="{{ route('getProduct', ['product' => $singleProduct->id]) }}" class="btn btn-primary">Edituj</a>
+                        <a href="{{ route('product.delete', ['product' => $singleProduct->id]) }}" class="btn btn-danger">Obrisi</a>
+                        <a href="{{ route('product.single', ['product' => $singleProduct->id]) }}" class="btn btn-primary">Edituj</a>
                     </td>
                 </tr>
             @endforeach

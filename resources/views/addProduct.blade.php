@@ -7,7 +7,7 @@
 
 @section("sadrzajStranice")
 
-    <form method="POST" action="{{ route("saveProduct")  }}">
+    <form method="POST" action="{{ route("product.save")  }}">
 
         @if($errors->any())
             @foreach($errors->all() as $error)

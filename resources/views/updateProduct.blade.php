@@ -6,7 +6,7 @@
 
 @section("sadrzajStranice")
 
-    <form method="POST" action="{{ route('updateProduct', ['product' => $product->id]) }}">
+    <form method="POST" action="{{ route('product.update', ['product' => $product->id]) }}">
 
         @if($errors->any())
             @foreach($errors->all() as $error)

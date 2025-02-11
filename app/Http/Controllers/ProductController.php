@@ -19,7 +19,7 @@ class ProductController extends Controller
     {
         $this->productRepo->createNew($request);
 
-        return redirect()->route('allProducts');
+        return redirect()->route('product.all');
     }
 
     public function getAllProducts()
@@ -45,13 +45,13 @@ class ProductController extends Controller
 
     public function getProductById(ProductsModel $product)
     {
-        return view('updateProduct', compact('product'));
+        return view('product.update', compact('product'));
     }
 
     public function updateProduct(SaveProductRequest $request,ProductsModel $product)
     {
         $this->productRepo->edit($product, $request);
 
-        return redirect()->route('allProducts');
+        return redirect()->route('product.all');
     }
 }

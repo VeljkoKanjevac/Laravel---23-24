@@ -60,15 +60,15 @@ Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->grou
     Route::controller(ProductController::class)->prefix("/product")->group(function () {
 
         Route::post("/new", [ProductController::class, "saveProduct"])
-            ->name("saveProduct");
+            ->name("product.save");
         Route::post("/update/{product}", [ProductController::class, "updateProduct"])
-            ->name("updateProduct");
+            ->name("product.update");
         Route::get("/all", [ProductController::class, "getAllProducts"])
-            ->name("allProducts");
+            ->name("product.all");
         Route::get("/delete/{product}", [ProductController::class, "deleteProduct"])
-            ->name("deleteProduct");
+            ->name("product.delete");
         Route::get("/{product}", [ProductController::class, "getProductById"])
-            ->name("getProduct");
+            ->name("product.sinlge");
 
     });
 
