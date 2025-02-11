@@ -24,13 +24,7 @@ class ProductController extends Controller
             'image' => 'required|string'
         ]);
 
-        ProductsModel::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'price' => $request->get('price'),
-            'amount' => $request->get('amount'),
-            'image' => $request->get('image')
-        ]);
+        $this->productRepo->createNew($request);
 
         return redirect()->route('allProducts');
     }
@@ -44,7 +38,7 @@ class ProductController extends Controller
 
     public function deleteProduct($product)
     {
-        $singleProduct = ProductsModel::where(['id' => $product])->first();
+        $singleProduct = $this->productRepo->getProductById($product);
 
         if($singleProduct === null)
         {
@@ -71,13 +65,7 @@ class ProductController extends Controller
             'image' => 'required|string'
         ]);
 
-        $product->update([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'price' => $request->get('price'),
-            'amount' => $request->get('amount'),
-            'image' => $request->get('image')
-        ]);
+        $this->productRepo->edit($product, $request);
 
         return redirect()->route('allProducts');
     }
