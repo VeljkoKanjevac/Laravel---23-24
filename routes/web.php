@@ -57,18 +57,18 @@ Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->grou
     });
 
 
-    Route::controller(ProductController::class)->prefix("/product")->group(function () {
+    Route::controller(ProductController::class)->prefix("/product")->name("product.")->group(function () {
 
         Route::post("/new", [ProductController::class, "saveProduct"])
-            ->name("product.save");
+            ->name("save");
         Route::post("/update/{product}", [ProductController::class, "updateProduct"])
-            ->name("product.update");
+            ->name("update");
         Route::get("/all", [ProductController::class, "getAllProducts"])
-            ->name("product.all");
+            ->name("all");
         Route::get("/delete/{product}", [ProductController::class, "deleteProduct"])
-            ->name("product.delete");
+            ->name("delete");
         Route::get("/{product}", [ProductController::class, "getProductById"])
-            ->name("product.sinlge");
+            ->name("single");
 
     });
 
