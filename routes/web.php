@@ -42,18 +42,18 @@ Route::view("/about", "about");
 
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->group(function () {
 
-    Route::controller(ContactController::class)->prefix("/contact")->group(function () {
+    Route::controller(ContactController::class)->prefix("/contact")->name("contact.")->group(function () {
 
         Route::post("/send", "sendContact")
-            ->name("contact.send");
+            ->name("send");
         Route::post("/update/{contact}", "updateContact")
-            ->name("contact.update");
+            ->name("update");
         Route::get("/all", "getAllContacts")
-            ->name("contact.all");
+            ->name("all");
         Route::get("/delete/{contact}", "deleteContact")
-            ->name("contact.delete");
+            ->name("delete");
         Route::get("/{contact}", [ContactController::class, "getContactById"])
-            ->name("contact.single");
+            ->name("single");
     });
 
 
