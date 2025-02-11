@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveProductRequest;
 use App\Models\ProductsModel;
 use Illuminate\Http\Request;
 use App\Repositories\ProductRepository;
@@ -14,16 +15,8 @@ class ProductController extends Controller
     {
         $this->productRepo = new ProductRepository();
     }
-    public function saveProduct(Request $request)
+    public function saveProduct(SaveProductRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|min:3|unique:products',
-            'description' => 'required|string|min:3',
-            'price' => 'required|numeric|min:0',
-            'amount' => 'required|integer|min:0',
-            'image' => 'required|string'
-        ]);
-
         $this->productRepo->createNew($request);
 
         return redirect()->route('allProducts');
@@ -55,16 +48,8 @@ class ProductController extends Controller
         return view('updateProduct', compact('product'));
     }
 
-    public function updateProduct(Request $request,ProductsModel $product)
+    public function updateProduct(SaveProductRequest $request,ProductsModel $product)
     {
-        $request->validate([
-            'name' => 'required|string|min:3|unique:products',
-            'description' => 'required|string|min:3',
-            'price' => 'required|numeric|min:0',
-            'amount' => 'required|integer|min:0',
-            'image' => 'required|string'
-        ]);
-
         $this->productRepo->edit($product, $request);
 
         return redirect()->route('allProducts');
