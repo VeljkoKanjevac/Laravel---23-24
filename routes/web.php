@@ -45,15 +45,15 @@ Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->grou
     Route::controller(ContactController::class)->prefix("/contact")->group(function () {
 
         Route::post("/send", "sendContact")
-            ->name("sendContact");
+            ->name("contact.send");
         Route::post("/update/{contact}", "updateContact")
-            ->name("updateContact");
+            ->name("contact.update");
         Route::get("/all", "getAllContacts")
-            ->name("allContacts");
+            ->name("contact.all");
         Route::get("/delete/{contact}", "deleteContact")
-            ->name("deleteContact");
+            ->name("contact.delete");
         Route::get("/{contact}", [ContactController::class, "getContactById"])
-            ->name("getContact");
+            ->name("contact.single");
     });
 
 

@@ -45,18 +45,18 @@ class ContactController extends Controller
 
         $singleContact->delete();
 
-        return redirect()->route('allContacts');
+        return redirect()->route('contact.all');
     }
 
     public function getContactById(ContactModel $contact)
     {
-        return view('updateContact', compact('contact'));
+        return view('contact.update', compact('contact'));
     }
 
     public function updateContact(SendContactRequest $request,ContactModel $contact)
     {
         $this->contactRepo->updateContact($request, $contact);
 
-        return redirect()->route('allContacts');
+        return redirect()->route('contact.all');
     }
 }
