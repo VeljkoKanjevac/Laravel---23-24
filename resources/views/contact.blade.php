@@ -6,7 +6,7 @@
 
 @section("sadrzajStranice")
 
-    <form method="POST", action="/send-contact">
+    <form method="POST" action="{{ route("saveContact")  }}">
 
         @if($errors->any())
             <p>Greska: {{$errors->first()}}</p>

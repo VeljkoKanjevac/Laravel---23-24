@@ -42,36 +42,37 @@ Route::view("/about", "about");
 
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->group(function () {
 
-    Route::post("/send-contact", [ContactController::class, "sendContact"]);
+    Route::controller(ContactController::class)->prefix("/contact")->group(function () {
+
+        Route::post("/send", "sendContact")
+            ->name("sendContact");
+        Route::post("/update/{contact}", "updateContact")
+            ->name("updateContact");
+        Route::get("/all", "getAllContacts")
+            ->name("allContacts");
+        Route::get("/delete/{contact}", "deleteContact")
+            ->name("deleteContact");
+        Route::get("/{contact}", [ContactController::class, "getContactById"])
+            ->name("getContact");
+    });
+
+
+    Route::controller(ProductController::class)->prefix("/product")->group(function () {
+
+        Route::post("/new", [ProductController::class, "saveProduct"])
+            ->name("saveProduct");
+        Route::post("/update/{product}", [ProductController::class, "updateProduct"])
+            ->name("updateProduct");
+        Route::get("/all", [ProductController::class, "getAllProducts"])
+            ->name("allProducts");
+        Route::get("/delete/{product}", [ProductController::class, "deleteProduct"])
+            ->name("deleteProduct");
+        Route::get("/{product}", [ProductController::class, "getProductById"])
+            ->name("getProduct");
+
+    });
 
     Route::view("/add-product", "addProduct");
-
-    Route::post("/new-product", [ProductController::class, "saveProduct"]);
-
-    Route::get("/all-contacts", [ContactController::class, "getAllContacts"])
-        ->name("allContacts");
-
-    Route::get("/all-products", [ProductController::class, "getAllProducts"])
-        ->name("allProducts");
-
-    Route::get("/delete-product/{product}", [ProductController::class, "deleteProduct"])
-        ->name("deleteProduct");
-
-    Route::get("/delete-contact/{contact}", [ContactController::class, "deleteContact"])
-        ->name("deleteContact");
-
-    Route::get("/product/{product}", [ProductController::class, "getProductById"])
-        ->name("getProduct");
-
-    Route::post("/update-product/{product}", [ProductController::class, "updateProduct"])
-        ->name("updateProduct");
-
-    Route::get("/contact/{contact}", [ContactController::class, "getContactById"])
-        ->name("getContact");
-
-    Route::post("/update-contact/{contact}", [ContactController::class, "updateContact"])
-        ->name("updateContact");
-
 });
 
 require __DIR__.'/auth.php';
