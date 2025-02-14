@@ -12,19 +12,27 @@ class ShopingCartController extends Controller
 
     public function index()
     {
-        $allProducts = [];
+        $cartItems = Session::get('product');
+        $productIDs = array_column(Session::get('product'), "product_id");
+        $products = ProductsModel::whereIn("id", $productIDs)->get();
 
-        foreach(Session::get('product') as $cartItem)
+        $combined = [];
+
+        foreach ($cartItems as $cartItem)
         {
-            $allProducts[] = $cartItem['product_id'];
+            $product = ProductsModel::firstWhere('id', $cartItem["product_id"]);
+            if ($product)
+            {
+                $combined[] = [
+                    "name" => $product->name,
+                    'amount' => $cartItem["amount"],
+                    "price" => $product->price,
+                    "totalPrice" => $product->price * $cartItem["amount"],
+                ];
+            }
         }
 
-        $products = ProductsModel::whereIn("id", $allProducts)->get();
-
-        return view('cart', [
-            'cart' => Session::get('product'),
-            'products' => $products,
-        ]);
+        return view('cart', compact('combined'));
     }
     public function addToCart(CartAddRequest $request)
     {

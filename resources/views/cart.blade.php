@@ -7,8 +7,13 @@
 
 @section("sadrzajStranice")
 
-    @foreach($products as $product)
-        <p>Product name: {{$product->name}}</p>
+    @foreach($combined as $item)
+        <div>
+            <p>Product name: {{$item['name']}}</p>
+            <p>Amount: {{$item['amount']}}</p>
+            <p>Price: {{$item['price']}}</p>
+            <p>Total price: {{$item['totalPrice']}}</p>
+        </div>
     @endforeach
 
 @endsection
