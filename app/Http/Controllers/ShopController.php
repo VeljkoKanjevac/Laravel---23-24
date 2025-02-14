@@ -11,7 +11,7 @@ class ShopController extends Controller
     {
        $allProducts = ProductsModel::all();
 
-       return view('shop', compact('allProducts'));
+       return view('products.shop', compact('allProducts'));
     }
 
 }

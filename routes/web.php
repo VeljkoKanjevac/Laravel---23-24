@@ -33,12 +33,12 @@ Route::middleware('auth')->group(function () {
 
 Route::get("/", [HomepageController::class, "index"]);
 
-Route::get("/shop", [ShopController::class, "index"]);
-
 Route::get("/contact", [ContactController::class, "index"]);
 
 Route::view("/about", "about");
 
+Route::get("/shop", [ShopController::class, "index"]);
+Route::get("/products/{product}", [ProductController::class, "permalink"])->name("product.permalink");
 
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->group(function () {
 

@@ -15,6 +15,12 @@ class ProductController extends Controller
     {
         $this->productRepo = new ProductRepository();
     }
+
+    public function permalink(ProductsModel $product)
+    {
+        return view('products.permalink', compact('product'));
+    }
+
     public function saveProduct(SaveProductRequest $request)
     {
         $this->productRepo->createNew($request);
@@ -26,7 +32,7 @@ class ProductController extends Controller
     {
         $allProducts = ProductsModel::all();
 
-        return view('allProducts', compact('allProducts'));
+        return view('products.all', compact('allProducts'));
     }
 
     public function deleteProduct($product)
@@ -45,7 +51,7 @@ class ProductController extends Controller
 
     public function getProductById(ProductsModel $product)
     {
-        return view('product.update', compact('product'));
+        return view('products.update', compact('product'));
     }
 
     public function updateProduct(SaveProductRequest $request,ProductsModel $product)
