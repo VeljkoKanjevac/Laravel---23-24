@@ -16,4 +16,6 @@
         </div>
     @endforeach
 
+    <a href="{{route("cart.finish")}}">Poruci proizvode</a>
+
 @endsection

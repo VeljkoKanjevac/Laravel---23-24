@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('price');
-            $table->string('status');
+            $table->string('status')->default('ordered');
             $table->timestamps();
 
             $table->foreign('user_id')

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CartAddRequest;
+use App\Models\OrderItems;
+use App\Models\Orders;
 use App\Models\ProductsModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class ShopingCartController extends Controller
@@ -12,13 +15,14 @@ class ShopingCartController extends Controller
 
     public function index()
     {
-        $cartItems = Session::get('product');
-        $productIDs = array_column(Session::get('product'), "product_id");
-        $products = ProductsModel::whereIn("id", $productIDs)->get();
+        $cart = Session::get('product');
+        if(count($cart) < 1)
+        {
+            return redirect('/');
+        }
 
         $combined = [];
-
-        foreach ($cartItems as $cartItem)
+        foreach ($cart as $cartItem)
         {
             $product = ProductsModel::firstWhere('id', $cartItem["product_id"]);
             if ($product)
@@ -49,5 +53,43 @@ class ShopingCartController extends Controller
         ]);
 
         return redirect()->route('cart.index');
+    }
+
+    public function orderFinish()
+    {
+        $cart = Session::get('product');
+        $totalCartPrice = 0;
+
+        foreach ($cart as $item)
+        {
+            $product = ProductsModel::firstWhere(['id' => $item["product_id"]]);
+            if ($item["amount"] > $product->amount)
+            {
+                return redirect()->back();
+            }
+            $totalCartPrice += $product->price * $item["amount"];
+        }
+
+        $order = Orders::create([
+            'user_id' => Auth::id(),
+            'price' => $totalCartPrice,
+        ]);
+
+        foreach ($cart as $item)
+        {
+            $product = ProductsModel::firstWhere(['id' => $item["product_id"]]);
+            $product->amount -= $item["amount"];
+            $product->save();
+
+            OrderItems::create([
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'amount' => $item["amount"],
+                'price' => $product->price * $item["amount"],
+            ]);
+        }
+
+        Session::remove('product');
+        return view('thankyou');
     }
 }
