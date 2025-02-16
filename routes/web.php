@@ -20,19 +20,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-
-
 Route::get("/", [HomepageController::class, "index"])->name("homepage");
 
 Route::get("/contact", [ContactController::class, "index"]);
@@ -41,15 +28,32 @@ Route::view("/about", "about");
 
 Route::get("/shop", [ShopController::class, "index"]);
 
-Route::middleware("auth")->group(function () {
 
-    Route::get("/products/{product}", [ProductController::class, "permalink"])->name("product.permalink");
-    Route::post("/cart/add", [ShopingCartController::class, "addToCart"])->name("cart.add");
-    Route::get("/cart", [ShopingCartController::class, "index"])->name("cart.index");
-    Route::get("cart/finish", [ShopingCartController::class, "orderFinish"])->name("cart.finish");
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+
+    Route::controller(ProductController::class)->name('profile.')->group(function () {
+
+        Route::get('/profile', 'edit')->name('edit');
+        Route::patch('/profile', 'update')->name('update');
+        Route::delete('/profile', 'destroy')->name('destroy');
+    });
 });
 
+Route::middleware("auth")->group(function (){
+
+    Route::controller(ShopingCartController::class)->prefix('/cart')->name('cart.')->group(function () {
+
+        Route::post("/add", "addToCart")->name("add");
+        Route::get("/",  "index")->name("index");
+        Route::get("/finish", "orderFinish")->name("finish");
+    });
+
+    Route::get("/products/{product}", [ProductController::class, "permalink"])->name("product.permalink");
+});
 
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->group(function () {
 
@@ -63,24 +67,22 @@ Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("/admin")->grou
             ->name("all");
         Route::get("/delete/{contact}", "deleteContact")
             ->name("delete");
-        Route::get("/{contact}", [ContactController::class, "getContactById"])
+        Route::get("/{contact}", "getContactById")
             ->name("single");
     });
 
-
     Route::controller(ProductController::class)->prefix("/product")->name("product.")->group(function () {
 
-        Route::post("/new", [ProductController::class, "saveProduct"])
+        Route::post("/new", "saveProduct")
             ->name("save");
-        Route::post("/update/{product}", [ProductController::class, "updateProduct"])
+        Route::post("/update/{product}",  "updateProduct")
             ->name("update");
-        Route::get("/all", [ProductController::class, "getAllProducts"])
+        Route::get("/all", "getAllProducts")
             ->name("all");
-        Route::get("/delete/{product}", [ProductController::class, "deleteProduct"])
+        Route::get("/delete/{product}",  "deleteProduct")
             ->name("delete");
-        Route::get("/{product}", [ProductController::class, "getProductById"])
+        Route::get("/{product}", "getProductById")
             ->name("single");
-
     });
 
     Route::view("/add-product", "addProduct");
